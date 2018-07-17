@@ -6,7 +6,7 @@
 # There is extra memory being used for the new data structure
 
 
-def hasUnique(string):
+def isUnique(string):
     charachters = dict()
     for i in string:
         if i not in charachters.keys():
@@ -21,5 +21,5 @@ def hasUnique(string):
 if __name__ == "__main__":
 
     s = 'hello'
-    d = hasUnique(s)
+    d = isUnique(s)
     print(d)

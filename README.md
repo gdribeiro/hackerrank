@@ -1,2 +1,3 @@
-# Hackerrank
-Solutions for Hacker Rank coding challenges + chracking the code interview
+# Hacker Rank
+
+Solutions for Hacker Rank coding challenges + Cracking The Code Interview
