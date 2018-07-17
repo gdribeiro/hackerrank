@@ -1,2 +1,2 @@
-# hackerrank
-Solutions for Hacker Rank coding challenges
+# Hackerrank
+Solutions for Hacker Rank coding challenges + chracking the code interview
