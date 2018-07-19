@@ -3,7 +3,7 @@
 # This answer uses quichsort with a tweak to maybe speed up the process
 # to detect if there are duplicate characters in the array.
 # First the array is sorted with quicksort, where is can detect sometimes if
-# there are duplicates when the pivot and the element being testes are equal
+# there are duplicates when the pivot and the element being tested are equal
 # In this case it breakes down the sorting and jumps to linear comparison
 # It is not much, but is avoids unnecessary work.
 
