@@ -1,4 +1,4 @@
-#!/bin/python3
+#!/usr/bin/python3
 
 # This answer uses a hash table to count the characters in the string
 # if there is one character with count greather than 1 return False
