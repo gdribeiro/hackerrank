@@ -54,17 +54,24 @@ class SLinkedList:
         return False
     def deleteFirstByVal(self, val):
         current = self.head
-    
         if self.head.getVal() == val:
             self.deleteHead()
             return True
-
         while current.getNext():
             if current.getNext().getVal() == val:
                 current.setNext(current.getNext().getNext())
                 return True
             current = current.getNext()
         return False
+    def getListSize(self):
+        count = 0
+        current = self.head
+        while True:
+            if current is None:
+                return count
+            else:
+                count += 1
+                current = current.getNext()
     def printList(self):
         current = self.head
         if self.head is None:
@@ -74,8 +81,23 @@ class SLinkedList:
             current = current.getNext()
             if current is None:
                 break
-
-
+    def deleteDuplicates(self):
+        hashT = dict()
+        current = self.head
+        if self.head is None:
+            return
+        else:
+            hashT[self.head.getVal()] = 1
+        while True:
+            if current.getNext() is not None:
+                if current.getNext().getVal() in hashT.keys():
+                    newNext = current.getNext().getNext()
+                    current.setNext(newNext)
+                else:
+                    hashT[current.getNext().getVal()] = 1
+                    current = current.getNext()
+            else:
+                return
 
 class MyTest(unittest.TestCase):
     def setUp(self):
@@ -121,6 +143,27 @@ class MyTest(unittest.TestCase):
         self.head.deleteFirstByVal(3)
         self.assertEqual(self.head.getTail().getVal(), 3)
         self.assertEqual(self.head.getHeadVal(), 1)
+
+    def test_getListSize(self):
+        self.head.append(1)
+        self.head.append(2)
+        self.head.append(3)
+        self.assertEqual(self.head.getListSize(), 3)
+
+    def test_deleteDuplicates(self):
+        self.head.append(1)
+        self.head.append(2)
+        self.head.append(3)
+        self.head.append(4)
+        self.head.append(3)
+        self.head.append(1)
+        self.head.append(3)
+        self.head.deleteDuplicates()
+        self.assertEqual(self.head.getHeadVal(), 1)
+        self.assertEqual(self.head.getTail().getVal(), 4)
+        self.assertEqual(self.head.getListSize(), 4)
+        self.head.printList()
+
 
 if __name__ == "__main__":
     unittest.main()
