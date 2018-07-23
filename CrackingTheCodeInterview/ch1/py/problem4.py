@@ -6,30 +6,39 @@ import unittest
 # This solution uses a dictinary(a.k.a. hash table) to count the characters in the string
 # And then compare them, if they are equal they are permutations of each other
 # Runtime complesity is O(n) and space complexity is O(n) due to the hadh table
+# This problem is very tricky with a weird description
 
 
-def palindromeCheck(stringA, stringB):
+def palindromeCheck(string):
     myHash = dict()
-    for s in stringA, stringB:
-        for i in s:
-            myHash[s] = dict()
-            if i not in myHash[s].keys():
-                myHash[s][i] = 1
+    oddCount = 0
+    length = 0
+    for char in string:
+        if char.isalpha():
+            if char not in myHash.keys():
+                myHash[char] = 1
+                oddCount += 1
             else:
-                myHash[s][i] += 1
-    
-    for key in myHash[stringA].keys():
-        if myHash[stringB][key] != myHash[stringA][key]:
-            return False
-    return True
+                myHash[char] += 1
+                if myHash[char] % 2:
+                    oddCount += 1
+                else:
+                    oddCount -= 1
+            length += 1
+        
+    if oddCount == 1 and length % 2 == 1:
+        return True
+    elif oddCount == 0 and length % 2 == 0:
+        return True
+    else:
+        return False
 
 
 class MyTest(unittest.TestCase):
     def setUp(self):
-            self.stringA ='hello world'
-            self.stringB = 'oleh rowld'
+            self.string = 'tact coa'
     def test_palindromeCheck(self):
-        result = palindromeCheck(self.stringA, self.stringB)
+        result = palindromeCheck(self.string)
         self.assertTrue(result)
         
 
