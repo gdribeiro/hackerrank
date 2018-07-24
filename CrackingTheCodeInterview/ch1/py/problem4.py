@@ -36,10 +36,22 @@ def palindromeCheck(string):
 
 class MyTest(unittest.TestCase):
     def setUp(self):
-            self.string = 'tact coa'
+        self.data = [
+        ('Tact Coa', True),
+        ('jhsabckuj ahjsbckj', True),
+        ('Able was I ere I saw Elba', True),
+        ('So patient a nurse to nurse a patient so', False),
+        ('Random Words', False),
+        ('Not a Palindrome', False),
+        ('no x in nixon', True),
+        ('azAZ', True)]
+
     def test_palindromeCheck(self):
-        result = palindromeCheck(self.string)
-        self.assertTrue(result)
+        for [test_string, expected] in self.data:
+            # Have to ignore letter's case
+            actual = palindromeCheck(test_string.lower())
+            print(actual, expected)
+            self.assertEqual(actual, expected)
         
 
 if __name__ == "__main__":
