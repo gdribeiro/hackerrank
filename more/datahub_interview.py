@@ -44,7 +44,14 @@ class Node:
             self.right.PrintTreeInOrder()
 
 
-    # Uses the concept of BFS to link nodes in the same level of the tree
+
+    # If N is the # of elements in the tree
+    # Runtime complexity is O(N), since the iteration passes by each node once
+    # The queues hold references to the elements already in the tree so no
+    # extra space required. If the reference is considered to have relevant
+    # space, then let k be the depth of the tree and Space complexity O(2**k)
+    # which is the most references to elements held by the queues
+    # The solution uses the concept of BFS to link nodes in the same level of the tree
     def linkLevels(self):
         self.nodesToLink = queue.Queue()
         self.linked = queue.Queue()
