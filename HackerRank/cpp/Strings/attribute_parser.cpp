@@ -91,17 +91,13 @@ int main() {
         hrml_queries.push_back(query);
     }
 
-
     // String with the pattern to create the regex object
     std::string start_tag_pattern =
         "<([a-z0-9_]+)([\\s]*([a-z0-9_]+)\\s=\\s\"([a-z0-9_]+)\"[\\s]*)+>*";
-    std::string close_tag_pattern =
-        "<//([a-z0-9_]+)*>";
+    std::string close_tag_pattern = "</([a-z0-9_]+)*>";
     // Creates the regex object from pattern with flags
-    std::regex openTagID(start_tag_pattern, std::regex_constants::icase);
-    std::regex closeTagID(close_tag_pattern, std::regex_constants::icase);
-
-
+    std::regex openTagID(start_tag_pattern, std::regex_constants::icase |  std::regex::ECMAScript);
+    std::regex closeTagID(close_tag_pattern, std::regex_constants::icase |  std::regex::ECMAScript);
 
     std::sregex_iterator it_end;
     std::stack<Tag*> tagStack;
@@ -129,9 +125,16 @@ int main() {
                     tagStack.top()->addChild(tagObj);
                     tagStack.push(tagObj);
                 }
+                std::cout << "Push to stack: " << tagStack.top()->getTag() << endl;
             }
-        } else if(std::regex_match(text, closeTagID)) {
+        } else if(std::regex_match(text, closeTagID)) {  
+            std::smatch match;
+            std::regex_search(text, match, closeTagID);
+            
+            if (tagStack.top()->getTag() != match[1])
+                throw std::invalid_argument("Invalid HRML syntax");
             tagStack.pop();
+            std::cout << "Pop from stack: " << match[1] << endl;
         }
 
     }
@@ -141,14 +144,20 @@ int main() {
     }
 
     
+    std::string query_pattern = "(\\b\\w+\\b)"; 
+    std::regex query_regex(query_pattern, std::regex_constants::icase | std::regex::ECMAScript);
+    std::vector<std::string> parsedQuery;
     for(int i = 0; i < nqueries; i++) {
         std::string text = hrml_queries[i];
-        
+        std::smatch match;
+
+        std::sregex_iterator it(text.begin(), text.end(), query_regex);   
+        for (std::sregex_iterator i=it; i!=it_end; ++i) {
+            std::smatch match = *i;
+            cout << match.str() << endl;
+            parsedQuery.push_back(match.str());
+        }        
     }
     
-
-
-
-
     return 0;
 }
