@@ -104,7 +104,7 @@ int main() {
     for(int i=0; i<nlines; ++i){
         const std::string text = hrml[i];
 
-        if (std::regex_match(text, openTagID)) {
+        if (std::regex_search(text, openTagID)) {
             std::sregex_iterator it(text.begin(), text.end(), openTagID);   
             for (std::sregex_iterator i=it; i!=it_end; ++i) {
                 std::smatch match = *i;
@@ -127,7 +127,7 @@ int main() {
                 }
                 std::cout << "Push to stack: " << tagStack.top()->getTag() << endl;
             }
-        } else if(std::regex_match(text, closeTagID)) {  
+        } else if(std::regex_search(text, closeTagID)) {  
             std::smatch match;
             std::regex_search(text, match, closeTagID);
             
@@ -157,7 +157,17 @@ int main() {
             cout << match.str() << endl;
             parsedQuery.push_back(match.str());
         }        
+
+        Tag* quering;        
+        for(int i = 0; i < parsedQuery.size() - 1; i++)
+        {
+            quering = Tag::getInstanceByTag(parsedQuery[i]);
+        }
+        
+
+
+
     }
-    
+
     return 0;
 }
