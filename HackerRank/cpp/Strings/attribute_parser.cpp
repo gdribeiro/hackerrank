@@ -11,8 +11,6 @@
 
 using namespace std;
 
-
-
 class Query {
     protected:
         std::vector<std::string> tags;
@@ -31,7 +29,6 @@ class Query {
             attribute = parsedQuery[parsedQuery.size()-1];
         }
         void printQuery() {
-            
             cout << "Tags: " << endl;
             for(int i = 0; i < tags.size(); i++)
             {
@@ -40,7 +37,6 @@ class Query {
             cout << endl;
             cout << "Attribute" << endl;
             cout << attribute << endl;
-            
         }
 };
 
@@ -70,7 +66,6 @@ class Tag {
         }
         Tag* getChildByName(std::string name) {
             Tag* child;
-            
             for(std::list<Tag*>::iterator i = children.begin(); i != children.end(); i++)
             {
                 if((*i)->getTag() == name) return *i;
@@ -88,7 +83,6 @@ class Tag {
         }
         void printParents() {
             cout << "parents: " << endl;
-            
             for(std::list<Tag*>::iterator i = parents.begin(); i != parents.end(); i++)
             {
                 cout << (*i)->getTag() << " - " ;
@@ -123,7 +117,6 @@ class Tag {
                 std::cout << "number of attributes: " << attributes.size() << endl
                 << "name: "<< i->first
                 << " : " << "value: " << i->second << endl;
-
         }
         void printTag() {
             cout << endl << this->tagName << endl;
@@ -134,56 +127,33 @@ class Tag {
         static void queryAttribute(Query* q) {
             std::vector<string> qTags       = q->getTags();
             std::string         attribute   = q->getAttribute();
+            Tag *nextTag;
             int i = 0;
             Tag *tag = tags[qTags[i]];
             i++;
-            tag->printTag();
-            Tag *nextTag;
             for(i; i < qTags.size(); i++)
             {
-                nextTag = tag->getChildByName(qTags[i]);
-                cout << "nextTag****";
-                nextTag->printTag();
-                
+                nextTag = tag->getChildByName(qTags[i]);                
                 if (!nextTag) {
                     break;
                 }
-                tag = nextTag;
-                
+                tag = nextTag;                
             }
-            cout << "out of for *****";
-            tag->printTag();
-            std::string name = "name";
-            cout << tag->attributes[name] << endl;
-            cout << tag->getAttribute(name) << endl;
-            cout << tag->getAttribute(attribute) << endl;
+
             std::string attr = tag->getAttribute(attribute);
-            
-            cout << "************************" << endl;
             if (!attr.empty()) {
                 cout << attr << endl;
             } else {
                 cout << "Not Found!" << endl;
             }
-            cout << "************************" << endl;
-            
-
-            
-
-
-
-
-
-
-
         }
-
-            
 };
+
 class Parser {
-    
+    // Here should go the input parsing, but i won't do it ...
 };
 
+// Makes Tag::tags class member known globally
 std::map<std::string, Tag*> Tag::tags;
 
 int main() {
@@ -192,13 +162,11 @@ int main() {
     std::vector<string> hrml, hrml_queries;
     std::cin >> nlines >> nqueries;
     std::getline(std::cin, tag); // just to read out the /n from the first string
-    std::cout << nlines << ' ' <<  nqueries;
-    std::cout << endl;
+
     for(int i=0; i<nlines; ++i){
         std::getline(std::cin, tag);
         hrml.push_back(tag);
     }
-    std::cout << endl;
     for(int i=0; i<nqueries; ++i){
         std::getline(std::cin, query);
         hrml_queries.push_back(query);
@@ -242,17 +210,8 @@ int main() {
                 throw std::invalid_argument("Invalid HRML syntax");
             tagStack.pop();
         }
-
     }
-    // for (map<string,Tag*>::iterator i=Tag::getTagsBegin(); i!=Tag::getTagsEnd(); ++i) {
-    //     cout << endl;
-    //     std::cout << i->first << " : " << i->second << ' ' << i->second->getTag() << endl;
-    //     i->second->printParents();
-    //     i->second->printChildren();
-    //     i->second->printAttributes();
-    // }
-
-    
+       
     std::string query_pattern = "(\\b\\w+\\b)"; 
     std::regex query_regex(query_pattern, std::regex_constants::icase | std::regex::ECMAScript);
     std::vector<std::string> parsedQuery;
@@ -266,10 +225,8 @@ int main() {
             parsedQuery.push_back(match.str());
         }   
         Query* q = new Query(parsedQuery);
-        // q->printQuery();
         Tag::queryAttribute(q);
         parsedQuery.clear();
     }
-
     return 0;
 }
