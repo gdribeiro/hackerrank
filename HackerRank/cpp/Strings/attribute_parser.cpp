@@ -11,6 +11,39 @@
 
 using namespace std;
 
+
+
+class Query {
+    protected:
+        std::vector<std::string> tags;
+        std::string attribute;
+    public:
+        std::string getAttribute() {
+            return attribute;
+        }
+        std::vector<std::string> getTags() {
+            return tags;
+        }
+        Query(std::vector<std::string> parsedQuery) {
+            for(int i=0; i < parsedQuery.size() - 1; i++) {
+                tags.push_back(parsedQuery[i]); 
+            }
+            attribute = parsedQuery[parsedQuery.size()-1];
+        }
+        void printQuery() {
+            
+            cout << "Tags: " << endl;
+            for(int i = 0; i < tags.size(); i++)
+            {
+                cout << tags[i] << ' ';
+            }
+            cout << endl;
+            cout << "Attribute" << endl;
+            cout << attribute << endl;
+            
+        }
+};
+
 class Tag {
     protected:
         static std::map<std::string, Tag*> tags;
@@ -35,6 +68,15 @@ class Tag {
         std::list<Tag*> getChildren() {
             return children;
         }
+        Tag* getChildByName(std::string name) {
+            Tag* child;
+            
+            for(std::list<Tag*>::iterator i = children.begin(); i != children.end(); i++)
+            {
+                if((*i)->getTag() == name) return *i;
+            }
+            return nullptr;
+        }
         void setAttribute(std::string name, std::string value) {
             attributes[name] = value;
         }
@@ -43,6 +85,24 @@ class Tag {
         }
         void addChild(Tag* child) {
             children.push_back(child);
+        }
+        void printParents() {
+            cout << "parents: " << endl;
+            
+            for(std::list<Tag*>::iterator i = parents.begin(); i != parents.end(); i++)
+            {
+                cout << (*i)->getTag() << " - " ;
+            }
+            cout << endl;
+        }
+        void printChildren() {
+            cout << "children: " << endl;
+            
+            for(std::list<Tag*>::iterator i = children.begin(); i != children.end(); i++)
+            {
+                cout << (*i)->getTag() << " - " ;
+            }
+            cout << endl;
         }
         Tag(std::string tag) {
             tagName = tag;
@@ -65,6 +125,60 @@ class Tag {
                 << " : " << "value: " << i->second << endl;
 
         }
+        void printTag() {
+            cout << endl << this->tagName << endl;
+            this->printParents();
+            this->printChildren();
+            this->printAttributes();
+        }
+        static void queryAttribute(Query* q) {
+            std::vector<string> qTags       = q->getTags();
+            std::string         attribute   = q->getAttribute();
+            int i = 0;
+            Tag *tag = tags[qTags[i]];
+            i++;
+            tag->printTag();
+            Tag *nextTag;
+            for(i; i < qTags.size(); i++)
+            {
+                nextTag = tag->getChildByName(qTags[i]);
+                cout << "nextTag****";
+                nextTag->printTag();
+                
+                if (!nextTag) {
+                    break;
+                }
+                tag = nextTag;
+                
+            }
+            cout << "out of for *****";
+            tag->printTag();
+            std::string name = "name";
+            cout << tag->attributes[name] << endl;
+            cout << tag->getAttribute(name) << endl;
+            cout << tag->getAttribute(attribute) << endl;
+            std::string attr = tag->getAttribute(attribute);
+            
+            cout << "************************" << endl;
+            if (!attr.empty()) {
+                cout << attr << endl;
+            } else {
+                cout << "Not Found!" << endl;
+            }
+            cout << "************************" << endl;
+            
+
+            
+
+
+
+
+
+
+
+        }
+
+            
 };
 class Parser {
     
@@ -82,7 +196,6 @@ int main() {
     std::cout << endl;
     for(int i=0; i<nlines; ++i){
         std::getline(std::cin, tag);
-        // cout << tag << endl;
         hrml.push_back(tag);
     }
     std::cout << endl;
@@ -90,25 +203,21 @@ int main() {
         std::getline(std::cin, query);
         hrml_queries.push_back(query);
     }
-
     // String with the pattern to create the regex object
     std::string start_tag_pattern =
-        "<([a-z0-9_]+)([\\s]*([a-z0-9_]+)\\s=\\s\"([a-z0-9_]+)\"[\\s]*)+>*";
-    std::string close_tag_pattern = "</([a-z0-9_]+)*>";
+        "<(\\w+)([\\s]*(\\w+)\\s*=\\s*\"(\\w+)\"[\\s]*)>*";
+    std::string close_tag_pattern = "</(\\w+)*>";
     // Creates the regex object from pattern with flags
     std::regex openTagID(start_tag_pattern, std::regex_constants::icase |  std::regex::ECMAScript);
     std::regex closeTagID(close_tag_pattern, std::regex_constants::icase |  std::regex::ECMAScript);
-
     std::sregex_iterator it_end;
     std::stack<Tag*> tagStack;
     for(int i=0; i<nlines; ++i){
         const std::string text = hrml[i];
-
         if (std::regex_search(text, openTagID)) {
             std::sregex_iterator it(text.begin(), text.end(), openTagID);   
             for (std::sregex_iterator i=it; i!=it_end; ++i) {
                 std::smatch match = *i;
-                
                 std::string tag = match[1];
                 Tag* tagObj = new Tag(tag);
                 for(int a=3; a<match.size(); a++) {
@@ -125,23 +234,23 @@ int main() {
                     tagStack.top()->addChild(tagObj);
                     tagStack.push(tagObj);
                 }
-                std::cout << "Push to stack: " << tagStack.top()->getTag() << endl;
             }
         } else if(std::regex_search(text, closeTagID)) {  
             std::smatch match;
             std::regex_search(text, match, closeTagID);
-            
             if (tagStack.top()->getTag() != match[1])
                 throw std::invalid_argument("Invalid HRML syntax");
             tagStack.pop();
-            std::cout << "Pop from stack: " << match[1] << endl;
         }
 
     }
-    for (map<string,Tag*>::iterator i=Tag::getTagsBegin(); i!=Tag::getTagsEnd(); ++i) {
-        std::cout << i->first << " : " << i->second << ' ' << i->second->getTag() << endl;
-        i->second->printAttributes();
-    }
+    // for (map<string,Tag*>::iterator i=Tag::getTagsBegin(); i!=Tag::getTagsEnd(); ++i) {
+    //     cout << endl;
+    //     std::cout << i->first << " : " << i->second << ' ' << i->second->getTag() << endl;
+    //     i->second->printParents();
+    //     i->second->printChildren();
+    //     i->second->printAttributes();
+    // }
 
     
     std::string query_pattern = "(\\b\\w+\\b)"; 
@@ -154,19 +263,12 @@ int main() {
         std::sregex_iterator it(text.begin(), text.end(), query_regex);   
         for (std::sregex_iterator i=it; i!=it_end; ++i) {
             std::smatch match = *i;
-            cout << match.str() << endl;
             parsedQuery.push_back(match.str());
-        }        
-
-        Tag* quering;        
-        for(int i = 0; i < parsedQuery.size() - 1; i++)
-        {
-            quering = Tag::getInstanceByTag(parsedQuery[i]);
-        }
-        
-
-
-
+        }   
+        Query* q = new Query(parsedQuery);
+        // q->printQuery();
+        Tag::queryAttribute(q);
+        parsedQuery.clear();
     }
 
     return 0;
