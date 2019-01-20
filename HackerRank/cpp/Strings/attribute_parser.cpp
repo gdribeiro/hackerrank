@@ -43,6 +43,7 @@ class Query {
 class Tag {
     protected:
         static std::map<std::string, Tag*> tags;
+        static std::string root;
         std::map<std::string, std::string> attributes;
         std::string tagName;
         std::list<Tag*> parents;
@@ -99,6 +100,11 @@ class Tag {
             cout << endl;
         }
         Tag(std::string tag) {
+            
+            if (tags.empty()) {
+                root = tag;
+            }
+            
             tagName = tag;
             tags[tag] = this;
         }
@@ -130,14 +136,22 @@ class Tag {
             Tag *nextTag;
             int i = 0;
             Tag *tag = tags[qTags[i]];
-            i++;
-            for(i; i < qTags.size(); i++)
-            {
-                nextTag = tag->getChildByName(qTags[i]);                
-                if (!nextTag) {
-                    break;
+            
+            if (qTags[i] == root) {
+                i++;
+                for(i; i < qTags.size(); i++)
+                {
+                    // tag->printTag();
+                    nextTag = tag->getChildByName(qTags[i]);                
+                    if (!nextTag) {
+                        cout << "Not Found!" << endl;
+                        return;
+                    }
+                    tag = nextTag;                
                 }
-                tag = nextTag;                
+            } else {
+                cout << "Not Found!" << endl;
+                return;
             }
 
             std::string attr = tag->getAttribute(attribute);
@@ -146,6 +160,8 @@ class Tag {
             } else {
                 cout << "Not Found!" << endl;
             }
+        
+           
         }
 };
 
@@ -155,6 +171,7 @@ class Parser {
 
 // Makes Tag::tags class member known globally
 std::map<std::string, Tag*> Tag::tags;
+std::string Tag::root;
 
 int main() {
     int nlines, nqueries;
@@ -173,7 +190,7 @@ int main() {
     }
     // String with the pattern to create the regex object
     std::string start_tag_pattern =
-        "<(\\w+)([\\s]*(\\w+)\\s*=\\s*\"(\\w+)\"[\\s]*)>*";
+        "<([[:print:]]\\b)(\\s([[:print:]])\\s=\\s\"([[:print:]])\")*(\\s([[:print:]])\\s=\\s\"([[:print:]])\")>";
     std::string close_tag_pattern = "</(\\w+)*>";
     // Creates the regex object from pattern with flags
     std::regex openTagID(start_tag_pattern, std::regex_constants::icase |  std::regex::ECMAScript);
@@ -187,13 +204,18 @@ int main() {
             for (std::sregex_iterator i=it; i!=it_end; ++i) {
                 std::smatch match = *i;
                 std::string tag = match[1];
+                // for(std::smatch::iterator i=match.begin(); i != match.end(); i++)
+                // {
+                //     cout << *i << endl;
+                // }
                 Tag* tagObj = new Tag(tag);
                 for(int a=3; a<match.size(); a++) {
                     std::string name, value;
                     name = match[a];
                     value = match[a+1];
+                    a++;
                     tagObj->setAttribute(name, value);
-                    if(a%2) a++; // iterates every 2 positions to get the pairs key,value
+                    if(! (a%2)) a++; // iterates every 2 positions to get the pairs key,value
                 }
                 if (tagStack.empty()) {
                     tagStack.push(tagObj);
