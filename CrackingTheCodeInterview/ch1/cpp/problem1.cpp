@@ -15,8 +15,6 @@ using namespace std;
 
 bool isUnique(std::string inString) {
     std::map<char, bool> letters;
-
-    
     for(std::string::iterator i=inString.begin(); i != inString.end(); i++)
     {
         if (letters[*i]) {
