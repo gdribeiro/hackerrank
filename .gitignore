@@ -36,3 +36,10 @@
 hs_err_pid*
 
 TODO
+
+# cmake files
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+# executable output
+output

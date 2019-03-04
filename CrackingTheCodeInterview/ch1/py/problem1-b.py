@@ -14,7 +14,6 @@ def quicksort(string):
     greater = []
 
     if len(string) > 1:
-
         pivot = string[0]
         for i in string[1:]:
             print(i)

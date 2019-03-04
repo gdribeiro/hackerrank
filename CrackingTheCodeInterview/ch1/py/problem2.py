@@ -15,7 +15,6 @@ def coutCharacters(string):
             hashTable[i] += 1
         else:
             hashTable[i] = 1
-
     return hashTable
 
 def compareHashs(hashA, hashB):

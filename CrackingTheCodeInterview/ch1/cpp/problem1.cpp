@@ -1,4 +1,3 @@
-
 // This answer uses a map<char, bool> to check if the character was
 // already found in the string. If yes, return false for not unique
 // characters in it, otherwise return true for unique characters in
