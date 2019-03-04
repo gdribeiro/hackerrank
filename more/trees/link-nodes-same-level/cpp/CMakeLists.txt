@@ -19,3 +19,10 @@ ADD_EXECUTABLE(output
                 src/main.cpp
                 )
 TARGET_LINK_LIBRARIES(output ${GTEST_LIBRARIES} pthread)
+
+
+OPTION(TS "Compilation for Testing" ON)
+
+IF(TS)
+  add_definitions(-DTEST_SW=1)
+ENDIF(TS)

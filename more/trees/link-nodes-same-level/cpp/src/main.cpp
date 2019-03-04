@@ -5,22 +5,25 @@
 #include "../includes/Tree.h"
 #include "../includes/NodeWithList.h"
 
+// Definition for testing
+#ifdef TEST_SW
+    #include "../includes/mainTest.h"
+#endif
+
 using namespace std;
 
 
 
-TEST(NodeTesting, getEmptyLeftNode) {
-    Node* node = new Node(0);
-    Node* leftNode = node->getLeft();
-    EXPECT_EQ(leftNode, nullptr);
+int main_main(int argc, char **argv) {
+    std::cout << "Normal execution!" << endl;
+    return 0;
 }
-
-
-
 int main(int argc, char **argv) {
-
-    testing::InitGoogleTest(&argc, argv);
-    auto testResult = RUN_ALL_TESTS();
-    cout << "Hello, it seems to be working!!!!" << endl;
-    return testResult;
+    int r;
+    #ifdef TEST_SW
+        r = mainTest(argc, argv);
+    #else
+        r = main_main(argc, argv);
+    #endif
+    return r;
 }
