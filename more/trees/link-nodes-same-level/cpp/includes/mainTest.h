@@ -7,6 +7,7 @@
 
 // Testing
 #include "../tests/NodeTesting.cpp"
+#include "../tests/TreeTesting.cpp"
 
 using namespace std;
 

@@ -9,11 +9,13 @@ using namespace std;
 class Tree {
     private:
         Node* root;
+        void insertNode2Node(Node *nodeFromTree, Node *newNode);
     public:
         Tree();
+        Tree(Node *root);
         ~Tree();
-        void insertNodeRoot(Node *newNode);
-        void insertNode2Node(Node *nodeFromTree, Node *newNode);
+        void insertNode(Node *newNode);
+        Node* getRoot();
 };
 
 #endif

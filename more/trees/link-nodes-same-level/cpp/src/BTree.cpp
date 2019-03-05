@@ -3,19 +3,25 @@
 Tree::Tree() {
 
 }
+Tree::Tree(Node *root) {
+    this->root = root;
+}
 Tree::~Tree() {
 }
-void Tree::insertNodeRoot(Node *newNode) {
+Node* Tree::getRoot() {
+    return root;
+}
+void Tree::insertNode(Node *newNode) {
     if (!root) {
         root = newNode;
     } else {
-        insertNode2Node(newNode, root->getRight()); 
+        insertNode2Node(root, newNode);
     }
 }
 void Tree::insertNode2Node(Node *nodeFromTree, Node *newNode) {
     if (newNode->getValue() < nodeFromTree->getValue()) {
         if (nodeFromTree->getLeft()) {
-            insertNode2Node(newNode, nodeFromTree->getLeft());
+            insertNode2Node(nodeFromTree->getLeft(), newNode);
         }
         else {
             nodeFromTree->insertLeftNode(newNode);
@@ -23,7 +29,7 @@ void Tree::insertNode2Node(Node *nodeFromTree, Node *newNode) {
     }
     else {
         if (nodeFromTree->getRight()) {
-            insertNode2Node(newNode, nodeFromTree->getRight());
+            insertNode2Node(nodeFromTree->getRight(), newNode);
         }
         else {
             nodeFromTree->insertRightNode(newNode);
