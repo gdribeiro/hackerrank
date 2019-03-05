@@ -23,5 +23,7 @@ class Node {
         Node *getLeft();
         Node *getRight();
         int getValue();
+        void deleteLeftNode();
+        void deleteRightNode();
 };
 #endif

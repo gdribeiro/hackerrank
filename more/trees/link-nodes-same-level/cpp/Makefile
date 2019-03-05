@@ -123,6 +123,33 @@ output/fast:
 	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/build
 .PHONY : output/fast
 
+src/BTree.o: src/BTree.cpp.o
+
+.PHONY : src/BTree.o
+
+# target to build an object file
+src/BTree.cpp.o:
+	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/BTree.cpp.o
+.PHONY : src/BTree.cpp.o
+
+src/BTree.i: src/BTree.cpp.i
+
+.PHONY : src/BTree.i
+
+# target to preprocess a source file
+src/BTree.cpp.i:
+	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/BTree.cpp.i
+.PHONY : src/BTree.cpp.i
+
+src/BTree.s: src/BTree.cpp.s
+
+.PHONY : src/BTree.s
+
+# target to generate assembly for a file
+src/BTree.cpp.s:
+	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/BTree.cpp.s
+.PHONY : src/BTree.cpp.s
+
 src/Node.o: src/Node.cpp.o
 
 .PHONY : src/Node.o
@@ -177,33 +204,6 @@ src/NodeWithList.cpp.s:
 	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/NodeWithList.cpp.s
 .PHONY : src/NodeWithList.cpp.s
 
-src/Tree.o: src/Tree.cpp.o
-
-.PHONY : src/Tree.o
-
-# target to build an object file
-src/Tree.cpp.o:
-	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/Tree.cpp.o
-.PHONY : src/Tree.cpp.o
-
-src/Tree.i: src/Tree.cpp.i
-
-.PHONY : src/Tree.i
-
-# target to preprocess a source file
-src/Tree.cpp.i:
-	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/Tree.cpp.i
-.PHONY : src/Tree.cpp.i
-
-src/Tree.s: src/Tree.cpp.s
-
-.PHONY : src/Tree.s
-
-# target to generate assembly for a file
-src/Tree.cpp.s:
-	$(MAKE) -f CMakeFiles/output.dir/build.make CMakeFiles/output.dir/src/Tree.cpp.s
-.PHONY : src/Tree.cpp.s
-
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -240,15 +240,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... output"
 	@echo "... edit_cache"
+	@echo "... src/BTree.o"
+	@echo "... src/BTree.i"
+	@echo "... src/BTree.s"
 	@echo "... src/Node.o"
 	@echo "... src/Node.i"
 	@echo "... src/Node.s"
 	@echo "... src/NodeWithList.o"
 	@echo "... src/NodeWithList.i"
 	@echo "... src/NodeWithList.s"
-	@echo "... src/Tree.o"
-	@echo "... src/Tree.i"
-	@echo "... src/Tree.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

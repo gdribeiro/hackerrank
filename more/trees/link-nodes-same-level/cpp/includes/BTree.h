@@ -1,5 +1,5 @@
-#ifndef TREE_H
-#define TREE_H
+#ifndef BTREE_H
+#define BTREE_H
 
 #include "Node.h"
 

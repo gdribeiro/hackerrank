@@ -26,4 +26,15 @@ int Node::getValue() {
     return this->value;
 }
 
+void Node::deleteLeftNode() {
+    auto nodeToDelete = this->leftNode;
+    this->leftNode = nullptr;
+    delete nodeToDelete;
+}
+void Node::deleteRightNode() {
+    auto nodeToDelete = this->rightNode;
+    this->rightNode = nullptr;
+    delete nodeToDelete;
+}
+
 #endif

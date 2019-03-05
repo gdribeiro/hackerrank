@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <gtest/gtest.h>
 #include "../includes/Node.h"
-#include "../includes/Tree.h"
+#include "../includes/BTree.h"
 #include "../includes/NodeWithList.h"
 
 // Definition for testing

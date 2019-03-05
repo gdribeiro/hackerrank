@@ -2,13 +2,11 @@
 #include <cstdio>
 #include <gtest/gtest.h>
 #include "../includes/Node.h"
-#include "../includes/Tree.h"
+#include "../includes/BTree.h"
 #include "../includes/NodeWithList.h"
 
 using namespace std;
 
-
-// Create test fixture for node in another class and call it here!
 TEST(NodeTesting, getValue) {
     Node* node = new Node(0);
     auto value = node->getValue();
@@ -37,4 +35,23 @@ TEST(NodeTesting, addRighttNode) {
     Node* rightNode = new Node(1);
     root->insertRightNode(rightNode);
     EXPECT_EQ(root->getRight(), rightNode);
+}
+
+
+TEST(NodeTesting, deleteLeftNode) {
+    Node* root = new Node(0);
+    Node* leftNode = new Node(1);
+    root->insertLeftNode(leftNode);
+    // This test would be better using fixture
+    root->deleteLeftNode();
+    EXPECT_EQ(root->getLeft(), nullptr);
+}
+
+TEST(NodeTesting, deleteRightNode) {
+    Node* root = new Node(0);
+    Node* rightNode = new Node(1);
+    root->insertRightNode(rightNode);
+    // This test would be better using fixture
+    root->deleteRightNode();
+    EXPECT_EQ(root->getRight(), nullptr);
 }

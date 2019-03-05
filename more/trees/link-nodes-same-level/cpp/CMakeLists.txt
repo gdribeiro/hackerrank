@@ -11,10 +11,10 @@ INCLUDE_DIRECTORIES(${link-nodes_SOURCE_DIR}/src/})
 
 ADD_EXECUTABLE(output
                 includes/Node.h
-                includes/Tree.h
+                includes/BTree.h
                 includes/NodeWithList.h
                 src/Node.cpp
-                src/Tree.cpp
+                src/BTree.cpp
                 src/NodeWithList.cpp
                 src/main.cpp
                 )
