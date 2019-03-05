@@ -30,3 +30,32 @@ TEST(TreeTesting, insert2TheRight) {
     tree->insertNode(new Node(1));
     EXPECT_EQ(tree->getRoot()->getRight()->getValue(), 1);
 }
+
+TEST(TreeTesting, insertLevelThree2TheLeftLeft) {
+    Tree *tree = new Tree(new Node(2));
+    tree->insertNode(new Node(0));
+    tree->insertNode(new Node(-1));
+    EXPECT_EQ(tree->getRoot()->getLeft()->getLeft()->getValue(), -1);
+}
+
+TEST(TreeTesting, insertLevelThree2TheLeftRight) {
+    Tree *tree = new Tree(new Node(2));
+    tree->insertNode(new Node(0));
+    tree->insertNode(new Node(1));
+    EXPECT_EQ(tree->getRoot()->getLeft()->getRight()->getValue(), 1);
+}
+
+
+TEST(TreeTesting, insertLevelThree2TheRightLeft) {
+    Tree *tree = new Tree(new Node(2));
+    tree->insertNode(new Node(4));
+    tree->insertNode(new Node(3));
+    EXPECT_EQ(tree->getRoot()->getRight()->getLeft()->getValue(), 3);
+}
+
+TEST(TreeTesting, insertLevelThree2TheRightRight) {
+    Tree *tree = new Tree(new Node(2));
+    tree->insertNode(new Node(4));
+    tree->insertNode(new Node(5));
+    EXPECT_EQ(tree->getRoot()->getRight()->getRight()->getValue(), 5);
+}

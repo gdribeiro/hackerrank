@@ -1,8 +1,6 @@
 #include "../includes/BTree.h"
 
-Tree::Tree() {
-
-}
+Tree::Tree() {}
 Tree::Tree(Node *root) {
     this->root = root;
 }
@@ -35,5 +33,4 @@ void Tree::insertNode2Node(Node *nodeFromTree, Node *newNode) {
             nodeFromTree->insertRightNode(newNode);
         }
     }
-    
 }
