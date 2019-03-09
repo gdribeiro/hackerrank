@@ -21,6 +21,9 @@ string isBalanced(string s) {
                 bs.push(s[i]);
                 break;
             case '}':
+            // In C++ you cant get the top() of a stack before testing if it is empty
+            // If the stack is empty it will result in a error of which is not cought in compiling  time
+            // Segmentation Fault (core dumped)
                 if(bs.empty()) return "NO"; 
                 if(bs.top() != '{') {
                     return "NO";
